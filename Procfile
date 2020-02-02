@@ -1,1 +1,1 @@
-worker: python AraonJR.py
+worker: python pybot.py
