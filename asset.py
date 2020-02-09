@@ -31,7 +31,14 @@ responces_gali = ['Aanguli kora',
 					'Ghute Kuruni',
 					'Mukh Puri',
 					'Gaach Bolod',
-					'Kelane']
+					'Kelane'
+					'Maderchod',
+					'Bhosadike',
+					'Bhen chod',
+					'Beti chod',
+					'Bhadhava',
+					'Chodu',
+					'Chutiya','Gaand','Gaandu','Gadha','Lauda','Hijra','Kuttiya','Paad','Randi','Saala kutta','Saali kutti','Tatti','Kamina','Chut ke pasine mein talay huye bhajiye ','Chut ke dhakkan','Chut ke gulam ','Kali Choot Ke Safaid Jhaat ','Khotey ki aulda','Kutte ka awlat','Kutte ki jat ','Kutte ke tatte','teri maa ki choot','Lavde ke bal ','Lund Chus','Lund Ke Pasine ','Meri Gand Ka Khatmal','Moot ','Najayaz paidaish','Rundi khana','Sadi hui gaand','Teri gaand','main kute ka lund ','Teri maa ka bhosda ','Teri maa ki chut ','Tere gaand mein keede paday ','Ullu ke pathe']
 
 kami_responces = ['ah yes it is i, Kami',
 					'understandable',

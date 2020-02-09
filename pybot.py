@@ -26,54 +26,68 @@ async def on_member_remove(member):
 	print(f'{member} has left the server on' f' {datetime.now().strftime("%c")}')
 	leavetime(member)
 
+
+
+#COMMANDS
+
 @client.command(aliases=['Ping','PING'])
 async def ping(ctx):
 	await ctx.send(f'Pongging you back at {round(client.latency * 100)}ms')
 	print('ping function used on' f' {datetime.now().strftime("%d/%m/%Y, %H:%M")}')
 
+
 @client.command(aliases=['YO'])
 async def yo(ctx):
 	await ctx.send('Yo mate\ni can do the following stuff\n1. ;ping for current ping\n2. ;date for current date and time\n3. ;owner\n4. ;gali for random gali\n5. ;Kami custom kami command\n6. ;toss for coinflip\n7. ;invite to generate an Invite\n8. ;say(your text) for Text to speech\n9. ;poke@mention to poke somebody\n10. ;boop to make the bot send you a dm')
+
 
 @client.command(aliases=['Date','DATE'])
 async def date(ctx):
 	await ctx.send('the current date is ' f' {datetime.now().strftime("%x")}')
 	print('Date function used on' f' {datetime.now().strftime("%d/%m/%Y, %H:%M")}')
 
+
 @client.command(aliases=['OWNER','Owner','Master','master'])
 async def owner(ctx):
 	await ctx.send('Custom Bot made by Araon#8553')
 	print('Owner function used on' f' {datetime.now().strftime("%d/%m/%Y, %H:%M")}')
+
 
 @client.command(aliases=['Gali','Khisti','khisti'])
 async def gali(ctx):
 	await ctx.send(random.choice(responces_gali))
 	print('Gali function used on' f' {datetime.now().strftime("%d/%m/%Y, %H:%M")}')
 
+
 @client.command(aliases=['Kami','KAMI'])
 async def kami(ctx):
 	await ctx.send(random.choice(kami_responces))
 	print('Kami function used on' f' {datetime.now().strftime("%d/%m/%Y, %H:%M")}')
-				
+
+			
 @client.command(aliases=['cls','Clear'])
 async def clear(ctx, amount : int):
 	await ctx.channel.purge(limit = amount)
 	print('clear function used on' f' {datetime.now().strftime("%d/%m/%Y, %H:%M")}')
+
 
 @client.command(aliases=['Toss','TOSS','coinflip','Coinflip','COINFLIP'])
 async def toss(ctx):
         await ctx.send(random.choice(choices))
         print('Toss function used on' f' {datetime.now().strftime("%d/%m/%Y, %H:%M")}')
 
+
 @client.command(aliases=['inv','Invite','INVITE'])
 async def invite(ctx):
 		await ctx.send(await ctx.message.channel.create_invite())
 		print('Invite function used on' f' {datetime.now().strftime("%d/%m/%Y, %H:%M")}')
 
+
 @client.event
 async def on_command_error(ctx,error):
 	if isinstance(error, commands.MissingRequiredArgument):
 		await ctx.send('Pls use correct command')
+
 
 @clear.error
 async def clear_error(ctx, error):
@@ -81,10 +95,12 @@ async def clear_error(ctx, error):
 		await ctx.send('Pls specify how many messages to delete.')
 
 
+
 @client.command(aliases=['Say','say'])
 async def tts(ctx, *, message: str):
 	await ctx.send(message, tts=True)
 	print('TTS function used')
+
 
 
 @client.command()
@@ -106,7 +122,7 @@ async def poke(ctx, user: discord.User):
 
 @client.command()
 async def padoru(ctx):
-	channel = client.get_channel(620325742781267979)
+	channel = client.get_channel(620502311063781396)
 	print('padoru ran')
 
 	await channel.send('Hashire sori yo')
@@ -117,7 +133,7 @@ async def padoru(ctx):
 @client.event
 async def on_message(message):
     # Whenever a user other than bot says "stfu"
-    if message.content == 'stfu':
+    if message.content == 'stfu','STFU','Stfu':
         await message.channel.send('No u')
     await client.process_commands(message)
 
