@@ -16,11 +16,15 @@ async def on_ready():
 
 
 @client.event
+# async def on_member_join(member):
+# 	print(f'{member} has joined a server on' f' {datetime.now().strftime("%c")}')
+# 	jointime(member)
 async def on_member_join(member):
-	print(f'{member} has joined a server on' f' {datetime.now().strftime("%c")}')
-	jointime(member)
-
-
+    guild = member.guild
+    if guild.system_channel is not None:
+        to_send = 'Welcome {0.mention} to {1.name}!'.format(member, guild)
+        await guild.system_channel.send(to_send)
+        
 @client.event
 async def on_member_remove(member):
 	print(f'{member} has left the server on' f' {datetime.now().strftime("%c")}')
@@ -38,7 +42,7 @@ async def ping(ctx):
 
 @client.command(aliases=['YO'])
 async def yo(ctx):
-	await ctx.send('Yo mate\ni can do the following stuff\n1. ;ping for current ping\n2. ;date for current date and time\n3. ;owner\n4. ;gali for random gali\n5. ;Kami custom kami command\n6. ;toss for coinflip\n7. ;invite to generate an Invite\n8. ;say(your text) for Text to speech\n9. ;poke@mention to poke somebody\n10. ;boop to make the bot send you a dm')
+	await ctx.send('Yo mate\ni can do the following stuff\n1. ;ping for current ping\n2. ;date for current date and time\n3. ;owner\n4. ;gali for random gali\n5. ;Kami for custom kami command\n6. ;toss for coinflip\n7. ;invite to generate an Invite\n8. ;say(your text) for Text to speech\n9. ;poke@mention to poke somebody\n10. ;boop to make the bot send you a dm')
 
 
 @client.command(aliases=['Date','DATE'])
@@ -65,7 +69,7 @@ async def kami(ctx):
 	print('Kami function used on' f' {datetime.now().strftime("%d/%m/%Y, %H:%M")}')
 
 			
-@client.command(aliases=['cls','Clear'])
+@client.command(aliases=['cls','Clear','Cls'])
 async def clear(ctx, amount : int):
 	await ctx.channel.purge(limit = amount)
 	print('clear function used on' f' {datetime.now().strftime("%d/%m/%Y, %H:%M")}')
@@ -133,9 +137,16 @@ async def padoru(ctx):
 @client.event
 async def on_message(message):
     # Whenever a user other than bot says "stfu"
-    if message.content == 'stfu','STFU','Stfu':
+    if message.content == 'stfu':
         await message.channel.send('No u')
     await client.process_commands(message)
+
+
+
+
+
+
+
 
 ## SERIOUS COMMANDS, DON'T CHANGE
 
