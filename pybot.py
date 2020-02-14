@@ -102,8 +102,8 @@ async def clear_error(ctx, error):
 
 @client.command(aliases=['Say','say'])
 async def tts(ctx, *, message: str):
-	#await ctx.send(message, tts=True)
-	await ctx.send("Anindya ei function ta bondho korte boleche :'(\nNa korle bot kick kore debe")	      
+	await ctx.send(message, tts=True)
+	#await ctx.send("Anindya ei function ta bondho korte boleche :'(\nNa korle bot kick kore debe")	      
 	print('TTS function used')
 
 
