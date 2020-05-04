@@ -57,3 +57,9 @@ kami_responces = ['ah yes it is i, Kami',
 
 choices = ['Head!',
 		'Tails!']
+
+
+responces_headpat = ['humpf','uwu','OwO','How dare you touch me you filthy twat','ok i\'ll let you this time']
+
+responces_bot = ['yeah that\'s what they call you ingame','i\'m pretty sure everybody knows that already','yeah you\'re the one acting like a bot rn','at least i\'ll be here when you\'re not',
+				'mereko na tujhse mu nahi lagna','abe chal be lavde','yes i\'m a BOT, you have a problem?','yes, i\'m a bot and yeah you pretty much addressed the elephant in the room']
