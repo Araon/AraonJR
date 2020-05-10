@@ -1,0 +1,15 @@
+
+The bot has connected to General
+ Sun May 10 10:16:12 2020
+The bot has connected to General
+ Sun May 10 10:29:50 2020
+The bot has connected to General
+ Sun May 10 10:32:10 2020
+Bot was told to leave voice channel, but was not in one from General channel
+ Sun May 10 10:35:37 2020
+Bot was told to leave voice channel, but was not in one from General channel
+ Sun May 10 10:36:05 2020
+The bot has connected to General
+ Sun May 10 10:36:18 2020
+The bot has connected to General Lobby
+ Sun May 10 12:13:57 2020

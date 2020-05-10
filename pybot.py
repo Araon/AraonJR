@@ -11,7 +11,7 @@ import shutil
 from os import system
 
 
-TOKEN = 'your token here'
+TOKEN = "your token here"
 client = commands.Bot(command_prefix = ';')
 ownerid = 322346259371393054
 
@@ -39,6 +39,7 @@ async def on_member_remove(member):
 def is_it_me(ctx):
 	return ctx.author.id == ownerid
 
+#
 
 #COMMANDS
 
@@ -129,19 +130,16 @@ async def padoru(ctx):
 	await channel.send('Padoru Padoru')'''
 
 
+
+
+
+# This part gives her Charecter
+
 @client.command()
 @commands.check(is_it_me)
 async def say(ctx, *,msg):
 	await ctx.message.delete()
 	await ctx.send("{}".format(msg))
-
-
-
-
-
-
-
-# This part gives her Charecter
 
 
 @client.event
@@ -153,9 +151,6 @@ async def on_message(message):
 	elif message.content == 'headpat':
 		await  message.channel.send(random.choice(responces_headpat))
 	await client.process_commands(message)
-
-
-
 
 
 
@@ -331,13 +326,11 @@ async def play(ctx, *url: str):
 	except:
 		print("No old Queue folder")
 
-	await ctx.send("Just a few sec...")
-
 	voice = get(client.voice_clients, guild=ctx.guild)
 
 	ydl_opts = {
 		'format': 'bestaudio/best',
-		'quiet': True,
+		'quiet': False,
 		'outtmpl': "./song.mp3",
 		'postprocessors': [{
 			'key': 'FFmpegExtractAudio',
@@ -352,10 +345,15 @@ async def play(ctx, *url: str):
 		with youtube_dl.YoutubeDL(ydl_opts) as ydl:
 			print("Downloading audio now\n")
 			ydl.download([f"ytsearch1:{song_search}"])
+			await ctx.send(f":musical_note:`Searching:{song_search}`")
+
+
 	except:
 		print("FALLBACK: youtube-dl does not support this URL, using Spotify (This is normal if Spotify URL)")
 		c_path = os.path.dirname(os.path.realpath(__file__))
 		system("spotdl -ff song -f " + '"' + c_path + '"' + " -s " + song_search)
+
+	
 
 	await client.change_presence(status=discord.Status.idle, activity=discord.Game('and singing'))
 	voice.play(discord.FFmpegPCMAudio("song.mp3"), after=lambda e: check_queue())
@@ -381,7 +379,7 @@ async def pause(ctx):
 		voice.pause()
 		#await ctx.channel.purge(limit = 1)
 		await ctx.send("Music paused!")
-		await client.add_reaction(ctx.message,":barnNo:672053627656863756")
+		await ctx.add_reaction(message,":barnNo:672053627656863756")
 	else:
 		print("Music not playing failed pause")
 		await ctx.send("What should i pause?, there is nothing")
