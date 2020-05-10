@@ -11,7 +11,7 @@ import shutil
 from os import system
 
 
-TOKEN = 'NjUxNzE1MTAzMzEzMzYyOTQ0.XrBZYQ.FWBDs6uJZp5UOwoqkz6YnBN9Qm0'
+TOKEN = 'your token here'
 client = commands.Bot(command_prefix = ';')
 ownerid = 322346259371393054
 
