@@ -1,0 +1,72 @@
+
+The bot has connected to General
+ Sun May 10 10:16:12 2020
+The bot has connected to General
+ Sun May 10 10:29:50 2020
+The bot has connected to General
+ Sun May 10 10:32:10 2020
+Bot was told to leave voice channel, but was not in one from General channel
+ Sun May 10 10:35:37 2020
+Bot was told to leave voice channel, but was not in one from General channel
+ Sun May 10 10:36:05 2020
+The bot has connected to General
+ Sun May 10 10:36:18 2020
+The bot has connected to General Lobby
+ Sun May 10 12:13:57 2020
+Bot was told to leave voice channel, but was not in one from General channel
+ Sun May 10 13:47:47 2020
+The bot has connected to General
+ Sun May 10 13:53:20 2020
+The bot has left the General channel 
+ Sun May 10 13:57:46 2020
+The bot has connected to General
+ Sun May 10 13:58:18 2020
+The bot has connected to General
+ Sun May 10 13:58:29 2020
+The bot has connected to General
+ Sun May 10 13:58:35 2020
+The bot has connected to General
+ Sun May 10 14:06:53 2020
+The bot has left the General channel 
+ Sun May 10 14:08:08 2020
+The bot has connected to General
+ Sun May 10 14:09:17 2020
+The bot has left the General channel 
+ Sun May 10 14:20:58 2020
+The bot has connected to General
+ Sun May 10 14:21:02 2020
+The bot has left the General channel 
+ Sun May 10 14:21:30 2020
+The bot has connected to General
+ Sun May 10 14:21:37 2020
+The bot has left the General channel 
+ Sun May 10 14:21:47 2020
+The bot has connected to General
+ Sun May 10 17:04:30 2020
+The bot has left the General channel 
+ Sun May 10 17:05:35 2020
+The bot has connected to General
+ Sun May 10 18:28:50 2020
+Connected to General Sun May 10 19:25:13 2020
+Left the General channel 
+ Sun May 10 19:25:22 2020
+Connected to General Sun May 10 19:31:03 2020
+Left the General channel 
+ Sun May 10 19:31:09 2020
+Connected to General Tue May 12 16:03:37 2020
+Bot was told to leave voice channel, but was not in one from General channel
+ Tue May 12 16:36:53 2020
+Connected to General Lobby Tue May 12 17:59:09 2020
+volume changed to 0.2 Tue May 12 17:59:53 2020
+volume changed to 0.4 Tue May 12 17:59:56 2020
+volume changed to 0.5 Tue May 12 18:00:00 2020
+volume changed to 0.2 Tue May 12 18:02:51 2020
+volume changed to 0.5 Tue May 12 18:02:56 2020
+Left the General Lobby channel 
+ Tue May 12 18:06:50 2020
+Bot was told to leave voice channel, but was not in one from General Lobby channel
+ Tue May 12 18:09:42 2020
+Bot was told to leave voice channel, but was not in one from General Lobby channel
+ Tue May 12 18:14:59 2020
+Bot was told to leave voice channel, but was not in one from General Lobby channel
+ Tue May 12 18:16:21 2020

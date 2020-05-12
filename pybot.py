@@ -1,27 +1,33 @@
 from datetime import datetime
 import discord
 from discord.ext import commands
+from discord.utils import find
 import random
-from asset import responces_gali , kami_responces, choices, responces_headpat, responces_bot
+from asset import responces_gali, kami_responces, choices, responces_headpat, responces_bot
 import asyncio
 from discord.utils import get
 import os
 import youtube_dl
 import shutil
 from os import system
+import logging
 
 
-TOKEN = "your token here"
-client = commands.Bot(command_prefix = ';')
+TOKEN = "Your token"
+PREFIX = ';'
+client = commands.Bot(command_prefix = PREFIX)
 ownerid = 322346259371393054
-
-
 #Basic Startup procedures
 
 @client.event
 async def on_ready():
 	await client.change_presence(status=discord.Status.idle, activity=discord.Game('and doing her best'))
 	print('AraonJR is running.')
+	starttime = datetime.now()
+	print(starttime)
+	f = open('botlog.txt','a')
+	f.write('\n' + f'Bot Online from' f' {datetime.now().strftime("%c")}')
+	f.close()	
 
 
 @client.event
@@ -39,6 +45,12 @@ async def on_member_remove(member):
 def is_it_me(ctx):
 	return ctx.author.id == ownerid
 
+@client.event
+async def on_guild_join(guild):
+    general = find(lambda x: x.name == 'general',  guild.text_channels)
+    if general and general.permissions_for(guild.me).send_messages:
+        await general.send('Hey Normies it\'s me AraonJR, {} looks cozy!'.format(guild.name))
+
 #
 
 #COMMANDS
@@ -46,7 +58,6 @@ def is_it_me(ctx):
 @client.command(aliases=['Ping','PING'])
 async def ping(ctx):
 	await ctx.send(f'Pongging you back at {round(client.latency * 100)}ms')
-	print('ping function used on' f' {datetime.now().strftime("%d/%m/%Y, %H:%M")}')
 
 
 @client.command(aliases=['YO'])
@@ -99,13 +110,13 @@ async def invite(ctx):
 @client.event
 async def on_command_error(ctx,error):
 	if isinstance(error, commands.MissingRequiredArgument):
-		await ctx.send('Pls use correct command')
+		await ctx.send('Please use correct command')
 
 
 @clear.error
 async def clear_error(ctx, error):
 	if isinstance(error, commands.MissingRequiredArgument):
-		await ctx.send('Pls specify how many messages to delete.')
+		await ctx.send('Please specify how many messages to delete.')
 
 
 @client.command()
@@ -118,6 +129,13 @@ async def poke(ctx, user: discord.User):
 	await user.send(f'{ctx.message.author} poked you')
 	await ctx.channel.purge(limit = 1)
 
+# @client.command()
+# async def uptime(ctx):
+# 	today = datetime.now().strftime("%x")
+# 	uptime = (today - starttime)
+# 	print(uptime)
+# 	print("beep boop this part ran")
+# 	await ctx.send(f'AraonJR is up for {uptime}')
 
 '''@client.command()
 async def padoru(ctx):
@@ -171,8 +189,8 @@ async def on_message(message):
 @commands.check(is_it_me)
 async def lathi(ctx, member : discord.Member, * , reason=None): 
 	await member.kick(reason=reason)
-	await ctx.send(f'{member.mention} ke lathi marlam just to flex')
-	f = open('discord.txt','a')
+	await ctx.send(f'kicked {member.mention} just to flex')
+	f = open('botlog.txt','a')
 	f.write('\n' + f'{member} kicked' f'{discord.member} on ' f' {datetime.now().strftime("%c")}')
 	f.close()
 
@@ -182,8 +200,8 @@ async def lathi(ctx, member : discord.Member, * , reason=None):
 @commands.check(is_it_me)
 async def ban(ctx, member : discord.Member, * , reason=None): 
 	await member.ban(reason=reason)
-	await ctx.send(f'Banned {member.mention}')
-	f = open('discord.txt','a')
+	await ctx.send(f'Banned {member.mention}💢')
+	f = open('botlog.txt','a')
 	f.write('\n' + f'{member} banned' f'{discord.member} on ' f' {datetime.now().strftime("%c")}')
 	f.close()	
 
@@ -199,7 +217,7 @@ async def unban(ctx, *, member):
 		if(user.name, user.discriminator) == (member_name, member_discriminator):
 			await ctx.guid.unban(user)
 			await ctx.send(f'Unbanned {user.name}#{user.discriminator}')
-			f = open('discord.txt','a')
+			f = open('botlog.txt','a')
 			f.write('\n' + f'{member} Unbanned' f' {datetime.now().strftime("%c")}')
 			f.close()
 
@@ -216,13 +234,11 @@ async def join(ctx):
 		return await voice.move_to(channel)
 
 	voice = await channel.connect()
-	f = open('discord.txt','a')
-	f.write('\n' + f"The bot has connected to {channel}\n" f' {datetime.now().strftime("%c")}')
+	f = open('botlog.txt','a')
+	f.write('\n' + f"Connected to {channel}" f' {datetime.now().strftime("%c")}')
 	f.close()
 
-	print(f"The bot has connected to {channel}\n")
-
-	await ctx.send(f"Vibing with the guys in {channel}")
+	await ctx.send(f"Vibing with the guys in {channel} 🤙")
 
 	await asyncio.sleep(1)
 
@@ -242,15 +258,13 @@ async def leave(ctx):
 		await voice.disconnect()
 		await ctx.channel.purge(limit = 1)
 		await client.change_presence(status=discord.Status.idle, activity=discord.Game("and doing her best"))
-		await ctx.send(f"Bye {channel}")
-		print(f"leaving {channel}")
-		f = open('discord.txt','a')
-		f.write('\n' + f"The bot has left the {channel} channel \n" f' {datetime.now().strftime("%c")}')
+		await ctx.send(f"Bye {channel} 🙋")
+		f = open('botlog.txt','a')
+		f.write('\n' + f"Left the {channel} channel \n" f' {datetime.now().strftime("%c")}')
 		f.close()
 	else:
-		print("Bot was told to leave voice channel, but was not in one")
-		await ctx.send("Bruh i don't think i'm in any voice channel")
-		f = open('discord.txt','a')
+		await ctx.send("I don't think i'm in any voice channel")
+		f = open('botlog.txt','a')
 		f.write('\n' + f"Bot was told to leave voice channel, but was not in one from {channel} channel\n" f' {datetime.now().strftime("%c")}')
 		f.close()
 
@@ -264,6 +278,8 @@ async def play(ctx, *url: str):
 	global last_play
 
 	await join(ctx)
+
+	await ctx.send(f":mag: `Searching:{url}`")
 
 	def check_queue():
 		Queue_infile = os.path.isdir("./Queue")
@@ -293,7 +309,7 @@ async def play(ctx, *url: str):
 
 				voice.play(discord.FFmpegPCMAudio("song.mp3"), after=lambda e: check_queue())
 				voice.source = discord.PCMVolumeTransformer(voice.source)
-				voice.source.volume = 0.07
+				voice.source.volume = 0.20
 
 			else:
 				queues.clear()
@@ -345,7 +361,7 @@ async def play(ctx, *url: str):
 		with youtube_dl.YoutubeDL(ydl_opts) as ydl:
 			print("Downloading audio now\n")
 			ydl.download([f"ytsearch1:{song_search}"])
-			await ctx.send(f":musical_note:`Searching:{song_search}`")
+			await ctx.send(f":musical_note: `Playing:{song_search}`")
 
 
 	except:
@@ -358,7 +374,7 @@ async def play(ctx, *url: str):
 	await client.change_presence(status=discord.Status.idle, activity=discord.Game('and singing'))
 	voice.play(discord.FFmpegPCMAudio("song.mp3"), after=lambda e: check_queue())
 	voice.source = discord.PCMVolumeTransformer(voice.source)
-	voice.source.volume = 0.07
+	voice.source.volume = 0.20
 
 
 #timer based leaving 
@@ -377,9 +393,7 @@ async def pause(ctx):
 	if voice and voice.is_playing():
 		print("Music paused")
 		voice.pause()
-		#await ctx.channel.purge(limit = 1)
-		await ctx.send("Music paused!")
-		await ctx.add_reaction(message,":barnNo:672053627656863756")
+		await ctx.send("Music Paused 🔈")
 	else:
 		print("Music not playing failed pause")
 		await ctx.send("What should i pause?, there is nothing")
@@ -393,8 +407,7 @@ async def resume(ctx):
 	if voice and voice.is_paused():
 		print("Resumed music")
 		voice.resume()
-		await ctx.channel.purge(limit = 1)
-		await ctx.send("Resuming Music!")
+		await ctx.send("Music resumed 🔊")
 	else:
 		print("Music is not paused")
 		await ctx.send("Are you dense?")
@@ -409,8 +422,7 @@ async def stop(ctx):
 	if voice and voice.is_playing():
 		print("Music stopped")
 		voice.stop()
-		await ctx.channel.purge(limit = 1)
-		await ctx.send("Music stopped")
+		await ctx.send("Music Stopped ⭕️")
 	else:
 		print("No music playing failed to stop")
 		await ctx.send("Stop my ass")
@@ -435,7 +447,7 @@ async def queue(ctx, *url: str):
 			add_queue = False
 			queues[q_num] = q_num
 
-	queue_path = os.path.abspath(os.path.realpath("Queue") + f"\song{q_num}.%(ext)s")
+	queue_path = os.path.abspath(os.path.realpath("Queue") + f"/song{q_num}.%(ext)s")
 
 	ydl_opts = {
 		'format': 'bestaudio/best',
@@ -483,31 +495,34 @@ async def volume(ctx, volume: int):
 
 	if ctx.voice_client is None:
 		return await ctx.send("Not connected to voice channel")
-
-	print(volume/100)
+	f = open('botlog.txt','a')
+	f.write('\n' + f'volume changed to {volume/100}' f' {datetime.now().strftime("%c")}')
+	f.close()
 
 	ctx.voice_client.source.volume = volume / 100
 	await ctx.send(f"Changed volume to {volume}%")
 
 
 
-
-
-
-
-
-
 #logging
 
 def jointime(member):
-	f = open('discord.txt','a')
+	f = open('botlog.txt','a')
 	f.write('\n' + f'{member} has joined a server on' f' {datetime.now().strftime("%c")}')
 	f.close()
 
 def leavetime(member):
-	f = open('discord.txt','a')
+	f = open('botlog.txt','a')
 	f.write('\n' + f'{member} has left a server on' f' {datetime.now().strftime("%c")}')
 	f.close()
+
+
+logger = logging.getLogger('discord')
+logger.setLevel(logging.INFO)
+handler = logging.FileHandler(filename='discordsystem.log', encoding='utf-8', mode='w')
+handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
+logger.addHandler(handler)
+
 
 
 client.run(TOKEN)
