@@ -1,3 +1,18 @@
+'''
+TODO: 
+1.Divide this script into smaller scripts
+2.Change Menu system into Embeded system
+3.find someway to download user avatar and use in meme
+
+changed:
+Added slap without testing
+added Env
+changed activity
+fixed song download error(fix is on luftwaffa)
+
+
+'''
+# Imports
 from datetime import datetime
 import discord
 from discord.ext import commands
@@ -11,9 +26,14 @@ import youtube_dl
 import shutil
 from os import system
 import logging
+from dotenv import load_dotenv
+from helper import worthless, slap
+load_dotenv()
 
+'''
+nodemon --exec "Python" ./pybot.py
+'''
 
-TOKEN = "Your token"
 PREFIX = ';'
 client = commands.Bot(command_prefix = PREFIX)
 ownerid = 322346259371393054
@@ -22,7 +42,7 @@ ownerid = 322346259371393054
 @client.event
 async def on_ready():
 	await client.change_presence(status=discord.Status.idle, activity=discord.Game('and doing her best'))
-	print('AraonJR is running.')
+	print('Prototype bot is running.')
 	starttime = datetime.now()
 	print(starttime)
 	f = open('botlog.txt','a')
@@ -51,9 +71,13 @@ async def on_guild_join(guild):
     if general and general.permissions_for(guild.me).send_messages:
         await general.send('Hey Normies it\'s me AraonJR, {} looks cozy!'.format(guild.name))
 
-#
+'''
 
-#COMMANDS
+COMMANDS
+
+'''
+
+
 
 @client.command(aliases=['Ping','PING'])
 async def ping(ctx):
@@ -129,6 +153,24 @@ async def poke(ctx, user: discord.User):
 	await user.send(f'{ctx.message.author} poked you')
 	await ctx.channel.purge(limit = 1)
 
+
+@client.command(pass_context=True)
+async def worth(ctx, usr: str):
+		worthless(usr)
+		await ctx.send(file=discord.File('worthless.jpg'))
+
+'''
+This command does not work for some reasons, gets stuck at "getting user dp"
+
+@client.command()
+async def testsl(ctx, *,  avamember : discord.Member=None):
+    #userAvatarUrl = avamember.avatar_url
+    slap(avamember.avatar_url)
+    await ctx.send(file=discord.File('slap.png'))
+
+
+
+
 # @client.command()
 # async def uptime(ctx):
 # 	today = datetime.now().strftime("%x")
@@ -137,7 +179,9 @@ async def poke(ctx, user: discord.User):
 # 	print("beep boop this part ran")
 # 	await ctx.send(f'AraonJR is up for {uptime}')
 
-'''@client.command()
+'''
+'''
+@client.command()
 async def padoru(ctx):
 	channel = client.get_channel(620502311063781396)
 	print('padoru ran')
@@ -145,10 +189,10 @@ async def padoru(ctx):
 	await channel.send('Hashire sori yo')
 	await channel.send('Kaze no you ni')
 	await channel.send('Tsukimihara wo')
-	await channel.send('Padoru Padoru')'''
+	await channel.send('Padoru Padoru')
 
 
-
+'''
 
 
 # This part gives her Charecter
@@ -174,13 +218,6 @@ async def on_message(message):
 
 
 ## SERIOUS COMMANDS, DON'T CHANGE
-
-
-
-
-
-
-
 
 
 
@@ -276,9 +313,7 @@ last_play = None
 async def play(ctx, *url: str):
 
 	global last_play
-
 	await join(ctx)
-
 	await ctx.send(f":mag: `Searching:{url}`")
 
 	def check_queue():
@@ -356,18 +391,26 @@ async def play(ctx, *url: str):
 	}
 
 	song_search = " ".join(url)
+	songsource = song_search.split(sep='/')
+	print(songsource)
 
-	try:
-		with youtube_dl.YoutubeDL(ydl_opts) as ydl:
-			print("Downloading audio now\n")
-			ydl.download([f"ytsearch1:{song_search}"])
-			await ctx.send(f":musical_note: `Playing:{song_search}`")
-
-
-	except:
-		print("FALLBACK: youtube-dl does not support this URL, using Spotify (This is normal if Spotify URL)")
-		c_path = os.path.dirname(os.path.realpath(__file__))
-		system("spotdl -ff song -f " + '"' + c_path + '"' + " -s " + song_search)
+	if 'open.spotify.com' in [songsource]:
+		try:
+			print("Downloading using Spotify")
+			q_path = os.path.abspath(os.path.realpath("Queue"))
+			system(f"spotdl -ff song{q_num} -f " + '"' + q_path + '"' + " -s " + song_search)
+			await ctx.send(f":musical_note: `Just Singing for you guys`")
+			
+		except:
+			await ctx.send("Invaid Spotify URL")
+	else:
+		try:
+			with youtube_dl.YoutubeDL(ydl_opts) as ydl:
+				print("Downloading audio now\n")
+				ydl.download([f"ytsearch1:{song_search}"])
+				await ctx.send(f":musical_note: `Playing:{song_search}`")
+		except:
+			await ctx.send("Invaid URL,Use 'Songname Artistname' format")
 
 	
 
@@ -461,15 +504,26 @@ async def queue(ctx, *url: str):
 	}
 
 	song_search = " ".join(url)
+	songsource = song_search.split(sep='/')
+	print(songsource)
 
-	try:
-		with youtube_dl.YoutubeDL(ydl_opts) as ydl:
-			print("Downloading audio now\n")
-			ydl.download([f"ytsearch1:{song_search}"])
-	except:
-		print("FALLBACK: youtube-dl does not support this URL, using Spotify (This is normal if Spotify URL)")
-		q_path = os.path.abspath(os.path.realpath("Queue"))
-		system(f"spotdl -ff song{q_num} -f " + '"' + q_path + '"' + " -s " + song_search)
+	if 'open.spotify.com' in [songsource]:
+		try:
+			print("Downloading using Spotify")
+			q_path = os.path.abspath(os.path.realpath("Queue"))
+			system(f"spotdl -ff song{q_num} -f " + '"' + q_path + '"' + " -s " + song_search)
+			print("This is a Spotify link")
+			await ctx.send(f":musical_note: `Singing for you guys`")
+		except:
+			await ctx.send("Invaid Spotify URL")
+	else:
+		try:
+			with youtube_dl.YoutubeDL(ydl_opts) as ydl:
+				print("Downloading audio now\n")
+				ydl.download([f"ytsearch1:{song_search}"])
+				await ctx.send(f":musical_note: `Playing:{song_search}`")
+		except:
+			await ctx.send("Invaid URL,Use 'SongName ArtistName' format")
 
 
 	await ctx.send("Adding song " + str(q_num) + " to the queue")
@@ -504,6 +558,9 @@ async def volume(ctx, volume: int):
 
 
 
+
+
+
 #logging
 
 def jointime(member):
@@ -525,7 +582,8 @@ logger.addHandler(handler)
 
 
 
-client.run(TOKEN)
+
+client.run(os.getenv('BOT_TOKEN'))
 
 
 
