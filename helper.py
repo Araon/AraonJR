@@ -27,12 +27,10 @@ def slap(url):
 	responce = requests.get(url)
 	try:
 		user = Image.open(BytesIO(responce.content))
-		print('getting user dp')
 	except OSError:
 		user = Image.open('./user/user1.jpg')
-		print("Fallback using default DP")# gets the defult dp
-	img = Image.open('./user/Araonjr.png', 'r')# gets bot's dp
-	background = Image.open('./Assets/slap/slap.jpg')# fetches the asset
+	img = Image.open('./user/Araonjr.png', 'r') # gets bot's dp
+	background = Image.open('./Assets/slap/slap.jpg') # fetches the asset
 	offset = (335,165)
 	background.paste(img, offset)
 	profile = user.resize((100,100))
@@ -40,3 +38,21 @@ def slap(url):
 	background.paste(profile, poffset)
 	background.save('slap.jpg')
 
+def spank(url):
+	responce = requests.get(url)
+	try:
+		user = Image.open(BytesIO(responce.content))
+	except OSError:
+		user = Image.open('./user/user1.jpg')
+	img = Image.open('./Assets/profilepic/Araonjr.png')
+	img = img.resize((190,240))
+	background = Image.open('./Assets/spank/spank.jpg')
+	offset = (745,45)
+	background.paste(img, offset)
+	profile = user.resize((240,240))
+	poffset = (1200,340)
+	background.paste(profile, poffset)
+	background.save('spank.jpg')
+	
+
+#spank('https://cdn.discordapp.com/avatars/651715103313362944/d8b5f4ee9746238ef82dd5a7a10a575b.webp')

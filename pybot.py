@@ -1,18 +1,16 @@
 '''
 TODO: 
-1.Divide this script into smaller scripts
-2.Change Menu system into Embeded system
-3.find someway to download user avatar and use in meme
+1.Implement cogs or something similar to cogs 
+2.Add sentiment analyzer
 
-changed:
-Added slap without testing
-added Env
-changed activity
-fixed song download error(fix is on luftwaffa)
+
+
+
 
 
 '''
 # Imports
+
 from datetime import datetime
 import discord
 from discord.ext import commands
@@ -27,7 +25,8 @@ import shutil
 from os import system
 import logging
 from dotenv import load_dotenv
-from helper import worthless, slap
+from helper import worthless, slap, spank
+from sentimentAnalyzer import sentiment
 load_dotenv()
 
 '''
@@ -37,12 +36,13 @@ nodemon --exec "Python" ./pybot.py
 PREFIX = ';'
 client = commands.Bot(command_prefix = PREFIX)
 ownerid = 322346259371393054
+
 #Basic Startup procedures
 
 @client.event
 async def on_ready():
 	await client.change_presence(status=discord.Status.idle, activity=discord.Game('and doing her best'))
-	print('Prototype bot is running.')
+	print('AraonJR is running.')
 	starttime = datetime.now()
 	print(starttime)
 	f = open('botlog.txt','a')
@@ -69,7 +69,7 @@ def is_it_me(ctx):
 async def on_guild_join(guild):
     general = find(lambda x: x.name == 'general',  guild.text_channels)
     if general and general.permissions_for(guild.me).send_messages:
-        await general.send('Hey Normies it\'s me AraonJR, {} looks cozy!'.format(guild.name))
+        await general.send('Hey it\'s me, AraonJR {} sure looks cozy!'.format(guild.name))
 
 '''
 
@@ -86,8 +86,24 @@ async def ping(ctx):
 
 @client.command(aliases=['YO'])
 async def yo(ctx):
-	await ctx.send('Yo mate\ni can do the following stuff\n1. ;ping for current ping\n2. ;date for current date and time\n3. ;owner\n4. ;gali for random gali\n5. ;Kami for custom kami command\n6. ;toss for coinflip\n7. ;invite to generate an Invite\n8. ;poke@mention to poke somebody')
-
+	embed = discord.Embed(
+		title = 'Commands',
+		description = 'The following Commands can be performed with `;` as prefix',
+		colour = discord.Colour.blue()
+	)
+	embed.set_thumbnail(url = 'https://cdn.discordapp.com/avatars/651715103313362944/d8b5f4ee9746238ef82dd5a7a10a575b.webp')
+	embed.add_field(name='`ping`', value='Ping of the bot',inline=True)
+	embed.add_field(name='`gali`', value='Get bestowed with a random gali',inline=True)
+	embed.add_field(name='`inv`', value='Generate an Invite to this Server',inline=True)
+	embed.add_field(name='`poke`', value='Use this command as ;poke@mention to poke someone',inline=True)
+	embed.add_field(name='`worth`', value='Use as ;worth @mention',inline=True)
+	embed.add_field(name='`kami`', value='kami',inline=True)
+	embed.add_field(name='`gibslap`', value='use as ;slap @mention',inline=True)
+	embed.add_field(name='`toss`', value='do a coin flip',inline=True)
+	embed.add_field(name='`gibspank`', value='use as ;gibspank @mention',inline=True)
+	embed.add_field(name='`owner`', value='Notify the owner of this Bot',inline=True)
+	embed.set_footer(text='Have a nice day!😄')
+	await ctx.send(embed = embed)
 
 @client.command(aliases=['Date','DATE'])
 async def date(ctx):
@@ -98,7 +114,7 @@ async def date(ctx):
 @client.command(aliases=['OWNER','Owner','Master','master'])
 async def owner(ctx):
 	await ctx.send('I receive headpats from <@322346259371393054>')
-	print('Owner function used on' f' {datetime.now().strftime("%d/%m/%Y, %H:%M")}')
+	# print('Owner function used on' f' {datetime.now().strftime("%d/%m/%Y, %H:%M")}')
 
 
 @client.command(aliases=['Gali','Khisti','khisti'])
@@ -128,24 +144,13 @@ async def toss(ctx):
 @client.command(aliases=['inv','Invite','INVITE'])
 async def invite(ctx):
 		await ctx.send(await ctx.message.channel.create_invite())
+ 
 
-
-
-@client.event
-async def on_command_error(ctx,error):
-	if isinstance(error, commands.MissingRequiredArgument):
-		await ctx.send('Please use correct command')
-
-
-@clear.error
-async def clear_error(ctx, error):
-	if isinstance(error, commands.MissingRequiredArgument):
-		await ctx.send('Please specify how many messages to delete.')
 
 
 @client.command()
 async def boop(ctx):
-	await ctx.author.send('boop!')
+	await ctx.author.send('boop!😸')
 	await ctx.channel.purge(limit = 1)
 
 @client.command(aliases=['pk'])
@@ -159,28 +164,71 @@ async def worth(ctx, usr: str):
 		worthless(usr)
 		await ctx.send(file=discord.File('worthless.jpg'))
 
-'''
-This command does not work for some reasons, gets stuck at "getting user dp"
-
 @client.command()
-async def testsl(ctx, *,  avamember : discord.Member=None):
+async def gibslap(ctx, *,  avamember : discord.Member=None):
     #userAvatarUrl = avamember.avatar_url
     slap(avamember.avatar_url)
-    await ctx.send(file=discord.File('slap.png'))
+    await ctx.send(file=discord.File('slap.jpg'))
+
+@client.command()
+async def gibspank(ctx, *,  avamember : discord.Member=None):
+    #userAvatarUrl = avamember.avatar_url
+    spank(avamember.avatar_url)
+    await ctx.send(file=discord.File('spank.jpg'))
+
+@client.command(aliases=['sentiment'])
+async def senti(ctx):
+	lastmessageID = ctx.channel.last_message_id
+	msg = await ctx.fetch_message(lastmessageID)
+	print(msg.content) 
+	lastmsg = sentiment(msg.content)
+	print(lastmsg) 
+	if lastmsg == 1:
+		await ctx.send_reaction("👍")
+	if lastmsg == 0:
+		await ctx.send_reaction("👌")
+	else:
+		await ctx.send_reaction("👎")
 
 
+@client.command(aliases=['pl'])
+async def poll(ctx,*,msg,avamember : discord.Member=None):
+	channel = ctx.channel
+	aut = ctx.author
+	try:
+		op1, op2 = msg.split("or")
+		txt = f"React with ✅ for `{op1}` or ❎ for  `{op2}`"
+	except: 
+		await channel.send("Correct Syntax: [choice1] or [choice2]")
+		return
+	embed = discord.Embed(title=f"Poll by `{aut}`", description = txt, colour = discord.Colour.red())
+	message_ = await channel.send(embed=embed)
+	await message_.add_reaction("✅")
+	await message_.add_reaction("❎")
+	await ctx.message.delete()
 
-
-# @client.command()
-# async def uptime(ctx):
-# 	today = datetime.now().strftime("%x")
-# 	uptime = (today - starttime)
-# 	print(uptime)
-# 	print("beep boop this part ran")
-# 	await ctx.send(f'AraonJR is up for {uptime}')
 
 '''
+	This command does not work for some reasons, gets stuck at "getting user dp"
+	update it dosent "get stuck", it makes the meme but fails to send it for some reason
+	UPDATE: nevermind, the problem was not with the code it was me, extension should have been .jpg 
+	and i've been using .png 
 '''
+
+#New stuff
+
+
+'''
+@client.command()
+async def uptime(ctx):
+	today = datetime.now().strftime("%x")
+	uptime = (today - starttime)
+	print(uptime)
+	print("beep boop this part ran")
+	await ctx.send(f'AraonJR is up for {uptime}')
+
+
+
 @client.command()
 async def padoru(ctx):
 	channel = client.get_channel(620502311063781396)
@@ -190,9 +238,9 @@ async def padoru(ctx):
 	await channel.send('Kaze no you ni')
 	await channel.send('Tsukimihara wo')
 	await channel.send('Padoru Padoru')
-
-
 '''
+
+
 
 
 # This part gives her Charecter
@@ -215,6 +263,22 @@ async def on_message(message):
 	await client.process_commands(message)
 
 
+
+'''
+Error Handler
+
+'''
+
+@client.event
+async def on_command_error(ctx,error):
+	if isinstance(error, commands.MissingRequiredArgument):
+		await ctx.send('Please use correct command, You can use the `;yo` command for help')
+
+
+@clear.error
+async def clear_error(ctx, error):
+	if isinstance(error, commands.MissingRequiredArgument):
+		await ctx.send('Please specify how many messages to delete.')
 
 
 ## SERIOUS COMMANDS, DON'T CHANGE
