@@ -16,7 +16,8 @@ python3 pybot.py
 ```
 
 ### PoC
-![Menu](https://i.ibb.co/GHnwXYn/araonjr.png)
+![Menu](https://i.ibb.co/XYjB90j/araonjr.png)
+
 
 ## *Author Name*
 ![Araon](https://github.com/Araon)
