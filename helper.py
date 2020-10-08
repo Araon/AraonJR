@@ -53,6 +53,7 @@ def spank(url):
 	poffset = (1200,340)
 	background.paste(profile, poffset)
 	background.save('spank.jpg')
-	
+
+
 
 #spank('https://cdn.discordapp.com/avatars/651715103313362944/d8b5f4ee9746238ef82dd5a7a10a575b.webp')
