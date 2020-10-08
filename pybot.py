@@ -27,6 +27,7 @@ import logging
 from dotenv import load_dotenv
 from helper import worthless, slap, spank
 from sentimentAnalyzer import sentiment
+from wiki import sendWiki
 load_dotenv()
 
 '''
@@ -96,11 +97,13 @@ async def yo(ctx):
 	embed.add_field(name='`gali`', value='Get bestowed with a random gali',inline=True)
 	embed.add_field(name='`inv`', value='Generate an Invite to this Server',inline=True)
 	embed.add_field(name='`poke`', value='Use this command as ;poke@mention to poke someone',inline=True)
-	embed.add_field(name='`worth`', value='Use as ;worth @mention',inline=True)
+	embed.add_field(name='`worth`', value='Use as ;worth name(not mention)',inline=True)
 	embed.add_field(name='`kami`', value='kami',inline=True)
-	embed.add_field(name='`gibslap`', value='use as ;slap @mention',inline=True)
+	embed.add_field(name='`gibslap`', value='use as ;gibslap @mention',inline=True)
 	embed.add_field(name='`toss`', value='do a coin flip',inline=True)
 	embed.add_field(name='`gibspank`', value='use as ;gibspank @mention',inline=True)
+	embed.add_field(name='`poll`', value='Seperate two options with **or**',inline=True)
+	embed.add_field(name='`wiki`', value='Get 3 sentence or less summary of a topic',inline=True)
 	embed.add_field(name='`owner`', value='Notify the owner of this Bot',inline=True)
 	embed.set_footer(text='Have a nice day!😄')
 	await ctx.send(embed = embed)
@@ -169,6 +172,12 @@ async def gibslap(ctx, *,  avamember : discord.Member=None):
     #userAvatarUrl = avamember.avatar_url
     slap(avamember.avatar_url)
     await ctx.send(file=discord.File('slap.jpg'))
+'''
+This command does not work for some reasons, gets stuck at "getting user dp"
+update it dosent "get stuck", it makes the meme but fails to send it for some reason
+UPDATE: nevermind, the problem was not with the code it was me, extension should have been .jpg 
+and i've been using .png 
+'''
 
 @client.command()
 async def gibspank(ctx, *,  avamember : discord.Member=None):
@@ -176,19 +185,19 @@ async def gibspank(ctx, *,  avamember : discord.Member=None):
     spank(avamember.avatar_url)
     await ctx.send(file=discord.File('spank.jpg'))
 
-@client.command(aliases=['sentiment'])
-async def senti(ctx):
-	lastmessageID = ctx.channel.last_message_id
-	msg = await ctx.fetch_message(lastmessageID)
-	print(msg.content) 
-	lastmsg = sentiment(msg.content)
-	print(lastmsg) 
-	if lastmsg == 1:
-		await ctx.send_reaction("👍")
-	if lastmsg == 0:
-		await ctx.send_reaction("👌")
-	else:
-		await ctx.send_reaction("👎")
+# @client.command(aliases=['sentiment'])
+# async def senti(ctx):
+# 	lastmessageID = ctx.channel.last_message_id
+# 	msg = await ctx.fetch_message(lastmessageID)
+# 	print(msg.content) 
+# 	lastmsg = sentiment(msg.content)
+# 	print(lastmsg) 
+# 	if lastmsg == 1:
+# 		await ctx.send_reaction("👍")
+# 	if lastmsg == 0:
+# 		await ctx.send_reaction("👌")
+# 	else:
+# 		await ctx.send_reaction("👎")
 
 
 @client.command(aliases=['pl'])
@@ -207,25 +216,24 @@ async def poll(ctx,*,msg,avamember : discord.Member=None):
 	await message_.add_reaction("❎")
 	await ctx.message.delete()
 
+@client.command(aliases=['Wi'])
+async def wiki(ctx, usr: str):
+	queryTerm = usr
+	result = sendWiki(queryTerm)
+	embed = discord.Embed(
+	title = queryTerm,
+	description = result,
+	colour = 0xce65dc
+	)
+	await ctx.send(embed = embed)
+	await ctx.message.delete()
 
-'''
-	This command does not work for some reasons, gets stuck at "getting user dp"
-	update it dosent "get stuck", it makes the meme but fails to send it for some reason
-	UPDATE: nevermind, the problem was not with the code it was me, extension should have been .jpg 
-	and i've been using .png 
-'''
+
 
 #New stuff
 
 
 '''
-@client.command()
-async def uptime(ctx):
-	today = datetime.now().strftime("%x")
-	uptime = (today - starttime)
-	print(uptime)
-	print("beep boop this part ran")
-	await ctx.send(f'AraonJR is up for {uptime}')
 
 
 
