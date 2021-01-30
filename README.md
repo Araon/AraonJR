@@ -22,6 +22,6 @@ python3 pybot.py
 ![Menu](https://i.ibb.co/XYjB90j/araonjr.png)
 
 
-## *Made with <3 *
+## *Made with <3*
 ![Araon](https://github.com/Araon)
 
