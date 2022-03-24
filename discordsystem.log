@@ -1,8 +1,3 @@
-2020-10-09 02:11:27,977:INFO:discord.client: logging in using static token
-2020-10-09 02:11:29,017:INFO:discord.gateway: Shard ID None has sent the IDENTIFY payload.
-2020-10-09 02:11:29,422:INFO:discord.gateway: Shard ID None has connected to Gateway: ["gateway-prd-main-n391",{"micros":82901,"calls":["discord-sessions-prd-2-10",{"micros":74233,"calls":["start_session",{"micros":46083,"calls":["api-prd-main-wfmr",{"micros":43826,"calls":["get_user",{"micros":2579},"add_authorized_ip",{"micros":1574},"get_guilds",{"micros":13237},"coros_wait",{"micros":1}]}]},"guilds_connect",{"micros":29,"calls":[]},"presence_connect",{"micros":2,"calls":[]}]}]}] (Session ID: 18a05bdf03a156e117dd0bff39d8605e).
-2020-10-09 02:21:11,270:INFO:discord.client: Received signal to terminate bot and event loop.
-2020-10-09 02:21:11,270:INFO:discord.client: Cleaning up tasks.
-2020-10-09 02:21:11,270:INFO:discord.client: Cleaning up after 1 tasks.
-2020-10-09 02:21:11,305:INFO:discord.client: All tasks finished cancelling.
-2020-10-09 02:21:11,305:INFO:discord.client: Closing the event loop.
+2020-10-28 23:30:59,368:INFO:discord.client: logging in using static token
+2020-10-28 23:31:00,650:INFO:discord.gateway: Shard ID None has sent the IDENTIFY payload.
+2020-10-28 23:31:01,070:INFO:discord.gateway: Shard ID None has connected to Gateway: ["gateway-prd-main-lrms",{"micros":71066,"calls":["discord-sessions-prd-2-48",{"micros":69144,"calls":["start_session",{"micros":51554,"calls":["api-prd-main-g3b3",{"micros":48472,"calls":["get_user",{"micros":2860},"add_authorized_ip",{"micros":1420},"get_guilds",{"micros":7668},"coros_wait",{"micros":1}]}]},"guilds_connect",{"micros":35,"calls":[]},"presence_connect",{"micros":2,"calls":[]}]}]}] (Session ID: c42b5ce9182fb642fb865e89341bafff).

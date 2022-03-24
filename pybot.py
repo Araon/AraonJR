@@ -16,7 +16,7 @@ import discord
 from discord.ext import commands
 from discord.utils import find
 import random
-from asset import responces_gali, kami_responces, choices, responces_headpat, responces_bot
+from assets import responces_gali, kami_responces, choices, responces_headpat, responces_bot
 import asyncio
 from discord.utils import get
 import os
@@ -173,10 +173,10 @@ async def gibslap(ctx, *,  avamember : discord.Member=None):
     slap(avamember.avatar_url)
     await ctx.send(file=discord.File('slap.jpg'))
 '''
-This command does not work for some reasons, gets stuck at "getting user dp"
-update it dosent "get stuck", it makes the meme but fails to send it for some reason
-UPDATE: nevermind, the problem was not with the code it was me, extension should have been .jpg 
-and i've been using .png 
+1.This command does not work for some reasons, gets stuck at "getting user dp"
+2.update it dosent "get stuck", it makes the meme but fails to send it for some reason
+3.UPDATE: nevermind, the problem was not with the code it was me, extension should have been .jpg 
+and i've been using .png
 '''
 
 @client.command()
@@ -234,9 +234,6 @@ async def wiki(ctx, usr: str):
 
 
 '''
-
-
-
 @client.command()
 async def padoru(ctx):
 	channel = client.get_channel(620502311063781396)
